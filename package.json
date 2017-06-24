@@ -1,0 +1,34 @@
+{
+  "name": "node_redis",
+  "version": "1.0.0",
+  "description": "Tutorial de como criar cache com o redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_module/.bin/jest /*",
+    "coverage": "node_module/.bin/jest --coverage /*",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js'"
+    
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
+    "express": "^4.15.3",
+    "knex": "^0.13.0",
+    "mysql2": "^1.3.5",
+    "redis": "^2.7.1",
+    "sequelize": "^4.1.0",
+    "sqlite3": "^3.1.8"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.5.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.1.0",
+    "jest": "^20.0.4"
+  }
+}
