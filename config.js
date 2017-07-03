@@ -4,5 +4,5 @@ module.exports = {
   REDIS_HOST: process.env.REDIS_HOST || '127.0.0.1',
   GITHUB_URL: process.env.GITHUB_URL || 'https://api.github.com',
   MYSQL_USER: process.env.MYSQL_USER || 'root',
-  MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || 'root'
-}
+  MYSQL_PASSWORD: process.env.MYSQL_PASSWORD || 'root',
+};

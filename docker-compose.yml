@@ -1,16 +1,17 @@
 version: '3'
 
 services:
+  node:
+    container_name: node_api
+    image: node:boron
+    ports:
+      - "3000"
   redis:
     container_name: node_redis
     image: redis:latest
     ports:
       - "6379:6379"
-  db:
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
+  mongo:
+    image: mongo
     ports:
-      - "3306:3306"
-
-  #   https://docs.docker.com/compose/wordpress/#define-the-project
+      - "27017:27017"
