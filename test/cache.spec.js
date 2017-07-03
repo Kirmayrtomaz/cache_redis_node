@@ -19,7 +19,8 @@ describe('Cache', () => {
             callback();
           }
         },
-        subscribe: () => {},
+        subscribe: () => { },
+        del: () => { },
       };
     };
     const cache = proxyquire('./../cache.js', {
@@ -34,11 +35,11 @@ describe('Cache', () => {
   });
 
   it('Cache connect has Error', (done) => {
-   const RedisClient = {
+    const RedisClient = {
       prototype: {},
     };
 
-   const createClient = function () {
+    const createClient = function () {
       return {
         on: (mensagem, callback) => {
           if (mensagem === 'error') {
@@ -47,26 +48,27 @@ describe('Cache', () => {
             callback();
           }
         },
-        subscribe: () => {},
+        subscribe: () => { },
+        del: () => { },
       };
     };
-   const cache = proxyquire('./../cache.js', {
+    const cache = proxyquire('./../cache.js', {
       redis: { createClient, RedisClient },
       console: {
-        log: () => {},
+        log: () => { },
       },
     });
 
-   Promise.coroutine(function* () {
+    Promise.coroutine(function* () {
       try {
-        const teste = yield cache.cacheConnect();
-      }catch (e) {
+        yield cache.cacheConnect();
+      } catch (e) {
         done();
       }
     })();
- });
+  });
 
-   it('Cache getCache', (done) => {
+  it('Cache getCache', (done) => {
     const RedisClient = {
       prototype: {},
     };
@@ -80,28 +82,26 @@ describe('Cache', () => {
             callback();
           }
         },
-        subscribe: (callback) => {
-         },
-         getAsync : sinon.stub().resolves(JSON.stringify({teste:1}))
-
-         }
-
+        subscribe: () => { },
+        getAsync: sinon.stub().resolves(JSON.stringify({ teste: 1 })),
+        del: () => { },
       };
+    };
 
     const cache = proxyquire('./../cache.js', {
       redis: { createClient, RedisClient },
     });
 
     Promise.coroutine(function* () {
-      yield cache.cacheConnect()
-      const teste =  yield  cache.getCache('keyName');
+      yield cache.cacheConnect();
+      const teste = yield cache.getCache('keyName');
 
-      teste.should.be.deepEqual({teste:1});
+      teste.should.be.deepEqual({ teste: 1 });
       done();
     })();
   });
 
-it('Cache setCache with not exist', (done) => {
+  it('Cache setCache with not exist', (done) => {
     const RedisClient = {
       prototype: {},
     };
@@ -115,25 +115,25 @@ it('Cache setCache with not exist', (done) => {
             callback();
           }
         },
-        subscribe: (callback) => {},
-        setAsync: sinon.stub().resolves()
+        subscribe: () => { },
+        setAsync: sinon.stub().resolves(),
+        del: () => { },
 
       };
-    }
+    };
     const cache = proxyquire('./../cache.js', {
       redis: { createClient, RedisClient },
     });
 
     Promise.coroutine(function* () {
-      yield cache.cacheConnect()
-      const teste =  yield  cache.setCache('keyName');
-      done()
+      yield cache.cacheConnect();
+      yield cache.setCache('keyName');
+      done();
     })();
   });
 
 
-
-it('Cache cacheMiddleware exists', (done) => {
+  it('Cache cacheMiddleware exists', (done) => {
     const RedisClient = {
       prototype: {},
     };
@@ -147,45 +147,34 @@ it('Cache cacheMiddleware exists', (done) => {
             callback();
           }
         },
-        subscribe: (callback) => {},
-        getAsync : sinon.stub().resolves(JSON.stringify({teste:1}))
-
+        subscribe: () => { },
+        del: () => { },
+        getAsync: sinon.stub().resolves(JSON.stringify({ teste: 1 })),
 
 
       };
-    }
+    };
     const cache = proxyquire('./../cache.js', {
       redis: { createClient, RedisClient },
     });
 
-    let res = {
-      json: () =>{
-        done()
-      }
-    }
+    const res = {
+      json: () => {
+        done();
+      },
+    };
 
-    let req = {
+    const req = {};
+    const next = {};
 
-    }
-
-    let next = {
-
-    }
-
-    Promise.coroutine(function*(){
-
-      yield  cache.cacheConnect();
+    Promise.coroutine(function* () {
+      yield cache.cacheConnect();
       cache.cacheMiddleware(req, res, next);
     })();
-
-
-
-
   });
 
 
-
-it('Cache cacheMiddleware not exists', (done) => {
+  it('Cache cacheMiddleware not exists', (done) => {
     const RedisClient = {
       prototype: {},
     };
@@ -199,35 +188,60 @@ it('Cache cacheMiddleware not exists', (done) => {
             callback();
           }
         },
-        subscribe: (callback) => {},
-        getAsync : sinon.stub().resolves()
-
+        subscribe: () => { },
+        del: () => { },
+        getAsync: sinon.stub().resolves(),
 
 
       };
-    }
+    };
     const cache = proxyquire('./../cache.js', {
       redis: { createClient, RedisClient },
     });
 
-    let res = {
-      json: () =>{
+    const res = {
+      json: () => {
 
-      }
-    }
+      },
+    };
 
-    let req = {
+    const req = {};
 
-    }
-
-    let next = () => {
-       done()
-    }
-    Promise.coroutine(function*(){
-      yield  cache.cacheConnect();
+    const next = () => {
+      done();
+    };
+    Promise.coroutine(function* () {
+      yield cache.cacheConnect();
       cache.cacheMiddleware(req, res, next);
     })();
-
   });
 
+
+  it('Cache publish mensage and has sucess', (done) => {
+    const RedisClient = {
+      prototype: {},
+    };
+
+    const createClient = function () {
+      return {
+        on: (mensagem, callback) => {
+          if (mensagem === 'connect') {
+            callback();
+          } else if (mensagem === 'message') {
+            callback();
+          }
+        },
+        subscribe: () => { },
+        setAsync: sinon.stub().resolves(),
+        del: () => { },
+        publish: () => { },
+      };
+    };
+    const cache = proxyquire('./../cache.js', {
+      redis: { createClient, RedisClient },
+    });
+
+    cache.publish();
+    done();
+  });
 });

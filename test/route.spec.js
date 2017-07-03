@@ -1,5 +1,3 @@
-const Promise = require('bluebird');
-
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 require('should-sinon');
@@ -11,7 +9,9 @@ describe('getOrg', () => {
     const getOrganization = sinon.stub().resolves(result);
     const setCache = sinon.stub().resolves();
     const req = {
-      param: () => result,
+      params: {
+        organization: 'org',
+      },
     };
 
     const res = {
@@ -29,14 +29,16 @@ describe('getOrg', () => {
     route.getOrg(req, res);
   });
   it('Route get Organization when not exist result', (done) => {
-  const getOrganization = sinon.stub().resolves(null);
-  const setCache = sinon.stub().resolves();
-  const req = {
-      param: () => 'urlPath',
+    const getOrganization = sinon.stub().resolves(null);
+    const setCache = sinon.stub().resolves();
+    const req = {
+      params: {
+        organization: 'org',
+      },
     };
 
-  const res = {
-      json: (response) => {
+    const res = {
+      json: () => {
       },
       sendStatus: (status) => {
         status.should.equal(404);
@@ -44,23 +46,25 @@ describe('getOrg', () => {
       },
     };
 
-  const route = proxyquire('./../route', {
+    const route = proxyquire('./../route', {
       './controller': { getOrganization },
       './cache': { setCache },
     });
 
-  route.getOrg(req, res);
-});
+    route.getOrg(req, res);
+  });
 
   it('Route get Organization when has Error', (done) => {
-  const error = Error('Redis generic error');
-  const getOrganization = sinon.stub().rejects(error);
-  const setCache = sinon.stub().resolves();
-  const req = {
-      param: () => 'urlPath',
+    const error = Error('Redis generic error');
+    const getOrganization = sinon.stub().rejects(error);
+    const setCache = sinon.stub().resolves();
+    const req = {
+      params: {
+        organization: 'org',
+      },
     };
 
-  const res = {
+    const res = {
       send: (response) => {
         response.should.equal('Redis generic error');
         done();
@@ -70,13 +74,13 @@ describe('getOrg', () => {
       },
     };
 
-  const route = proxyquire('./../route', {
+    const route = proxyquire('./../route', {
       './controller': { getOrganization },
       './cache': { setCache },
     });
 
-  route.getOrg(req, res);
-});
+    route.getOrg(req, res);
+  });
 });
 
 
@@ -105,39 +109,37 @@ describe('getAllorgs', () => {
     route.getAllOrgs(req, res);
   });
   it('Route get All Organization when not exist result', (done) => {
-  const getAllOrganizations = sinon.stub().resolves([]);
-  const setCache = sinon.stub().resolves();
+    const getAllOrganizations = sinon.stub().resolves([]);
+    const setCache = sinon.stub().resolves();
     const req = {
       originalUrl: 'url',
     };
 
-  const res = {
-      json: (response) => {
-        console.log('json')
-      },
+    const res = {
+      json: () => {},
       sendStatus: (status) => {
         status.should.equal(404);
         done();
       },
     };
 
-  const route = proxyquire('../route', {
+    const route = proxyquire('../route', {
       './controller': { getAllOrganizations },
       './cache': { setCache },
     });
 
-  route.getAllOrgs(req, res);
-});
+    route.getAllOrgs(req, res);
+  });
 
   it('Route get Organization when has Error', (done) => {
-  const error = Error('Redis generic error');
-  const getAllOrganizations = sinon.stub().rejects(error);
-  const setCache = sinon.stub().resolves();
+    const error = Error('Redis generic error');
+    const getAllOrganizations = sinon.stub().rejects(error);
+    const setCache = sinon.stub().resolves();
     const req = {
       originalUrl: 'url',
     };
 
-  const res = {
+    const res = {
       send: (response) => {
         response.should.equal('Redis generic error');
         done();
@@ -147,11 +149,11 @@ describe('getAllorgs', () => {
       },
     };
 
-  const route = proxyquire('./../route', {
+    const route = proxyquire('./../route', {
       './controller': { getAllOrganizations },
       './cache': { setCache },
     });
 
-  route.getAllOrgs(req, res);
-});
+    route.getAllOrgs(req, res);
+  });
 });

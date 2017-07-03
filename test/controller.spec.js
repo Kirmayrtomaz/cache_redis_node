@@ -6,7 +6,7 @@ require('should-sinon');
 
 
 describe('Controller', () => {
-  it('get organization when not exist in database', (done) => {
+  it('get organization when not exist in database XD', (done) => {
     const controller = proxyquire('../controller', {
       './db': {
         Orgs: {
@@ -18,9 +18,8 @@ describe('Controller', () => {
         getOrgByGithub: sinon.stub().resolves({ login: 'organization' }),
       },
       './cache': {
-        pub: {
-            publish: function(){}
-        },
+        setCache: sinon.stub().resolves(),
+        publish() { },
       },
     });
 
@@ -31,7 +30,7 @@ describe('Controller', () => {
     })();
   });
 
-it('get organization when  the exist in database', (done) => {
+  it('get organization when  the exist in database', (done) => {
     const controller = proxyquire('../controller', {
       './db': {
         Orgs: {
@@ -43,9 +42,7 @@ it('get organization when  the exist in database', (done) => {
         getOrgByGithub: sinon.stub().resolves({ login: 'organization' }),
       },
       './cache': {
-        pub: {
-            publish: function(){}
-        },
+        publish() { },
       },
     });
 
@@ -56,21 +53,21 @@ it('get organization when  the exist in database', (done) => {
     })();
   });
 
-it('get all organizations  in database', (done) => {
+  it('get all organizations  in database', (done) => {
     const controller = proxyquire('../controller', {
       './db': {
         Orgs: {
-          find: sinon.stub().resolves([{name:'org1'},{name: 'org2'}]),
+          find: sinon.stub().resolves([{ name: 'org1' }, { name: 'org2' }]),
         },
       },
       './cache': {
-        setCache: sinon.stub().resolves()
+        setCache: sinon.stub().resolves(),
       },
     });
 
     Promise.coroutine(function* () {
       const result = yield controller.getAllOrganizations('org');
-      result.should.deepEqual(['org1','org2']);
+      result.should.deepEqual(['org1', 'org2']);
       done();
     })();
   });

@@ -8,7 +8,7 @@ require('should-sinon');
 describe('DB', () => {
   it('Db Connect when has sucess', (done) => {
     const mongoose = {
-      Schema() { },
+      Schema: function () { },
       model: () => { },
       connect: () => { },
       connection: {
@@ -31,7 +31,7 @@ describe('DB', () => {
 
   it('Db Connect when has error', (done) => {
     const mongoose = {
-      Schema() { },
+      Schema: function () { },
       model: () => { },
       connect: () => { },
       connection: {
@@ -59,13 +59,13 @@ describe('DB', () => {
 
   it('Db find organizations when has sucess', (done) => {
     const mongoose = {
-      Schema() { },
+      Schema: function () { },
       model() {
         return {
-          findOne () {
+          findOne() {
             return {
               exec: sinon.stub().resolves({ login: 'organization' })
-            }
+            };
           },
         };
       },
@@ -84,13 +84,13 @@ describe('DB', () => {
 
   it('Db find organizations when has sucess', (done) => {
     const mongoose = {
-      Schema() { },
+      Schema: function () {},
       model() {
         return {
-          find () {
+          find() {
             return {
               exec: sinon.stub().resolves([{ login: 'organization' }])
-            }
+            };
           },
         };
       },
