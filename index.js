@@ -2,10 +2,11 @@ const http = require('http');
 const express = require('express');
 const Promise = require('bluebird');
 
-const { cacheConnect } = require('./cache');
-const { APP_PORT } = require('./config');
-const { getRouter } = require('./route');
+
 const { dbConnect } = require('./db');
+const { APP_PORT } = require('./config');
+const { getOrg, getAllOrgs } = require('./route');
+const { cacheConnect, cacheMiddleware } = require('./cache');
 
 let httpServer;
 
@@ -15,17 +16,20 @@ function init() {
   });
 }
 
+
 Promise.coroutine(function* () {
-  yield dbConnect();
   yield cacheConnect();
+  yield dbConnect();
+
   const app = express(APP_PORT);
   httpServer = http.Server(app);
-
-  app.use(getRouter());
+  app.use(cacheMiddleware);
 
   app.get('/', (req, res) => {
     res.json({ status: 'The NODE_REDIS XD' });
   });
+  app.get('/orgs/:organization', getOrg );
+  app.get('/orgs/', getAllOrgs );
 
 
   init();
