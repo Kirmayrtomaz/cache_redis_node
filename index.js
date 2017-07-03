@@ -28,8 +28,8 @@ Promise.coroutine(function* () {
   app.get('/', (req, res) => {
     res.json({ status: 'The NODE_REDIS XD' });
   });
-  app.get('/orgs/:organization', getOrg );
-  app.get('/orgs/', getAllOrgs );
+  app.get('/orgs/:organization', getOrg);
+  app.get('/orgs/', getAllOrgs);
 
 
   init();

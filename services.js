@@ -1,27 +1,17 @@
-const axios = require('axios');
+const rp = require('request-promise');
 const { GITHUB_URL } = require('./config');
 
-
-/**
- * new Promise((resolve,reject)=>{
-    let json = {
-      login: repo,
-      name: 'Concrete Solutions',
-      description: '',
-      html_url: 'https://github.com/concretesolutions',
-      avatar_url: 'https://avatars1.githubusercontent.com/u/858781?v=3',
-      public_repos: 25
-    }
-    resolve(json)
-  })
- *
- */
-
-
 function getOrgByGithub(repo) {
-  return axios.get(`${GITHUB_URL}/orgs/${repo}/repos`);
+  return rp.get({
+    uri: `${GITHUB_URL}/orgs/${repo}`,
+    headers: {
+      'User-Agent': 'Request-Promise',
+    },
+    json: true,
+  });
 }
 
 module.exports = {
-  getOrgByGithub
+  getOrgByGithub,
 };
+

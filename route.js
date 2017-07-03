@@ -3,13 +3,13 @@ const { getOrganization, getAllOrganizations } = require('./controller');
 const { setCache } = require('./cache');
 
 const getOrg = (req, res) => Promise.coroutine(function* () {
-  const organization = req.param('organization');
-
+  const organization = req.params.organization;
+  const cacheURL = req.originalUrl;
   try {
-    const org = yield getOrganization(organization);
+    const org = yield getOrganization(organization, cacheURL);
 
     if (org) {
-      yield setCache(req.originalUrl, org, 10);
+      yield setCache(cacheURL, org, 10);
       return res.json(org);
     }
 
@@ -22,15 +22,15 @@ const getOrg = (req, res) => Promise.coroutine(function* () {
 
 const getAllOrgs = (req, res) => Promise.coroutine(function* () {
   const cacheKey = req.originalUrl;
-  try{
+
+  try {
     const allOrganizations = yield getAllOrganizations();
-    if(allOrganizations && allOrganizations.length > 0){
+    if (allOrganizations && allOrganizations.length > 0) {
       yield setCache(cacheKey, allOrganizations, 10);
       return res.json(allOrganizations);
     }
     return res.sendStatus(404);
-
-  }catch (e) {
+  } catch (e) {
     res.status(500);
     return res.send(e.message);
   }

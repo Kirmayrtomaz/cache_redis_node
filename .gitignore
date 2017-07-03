@@ -1,2 +1,4 @@
 lcov-report
 node_modules
+coverage
+npm*

@@ -24,7 +24,7 @@ const Orgs = (function () {
     yield orgsave.save();
   })();
 
-  const findOne = organization => Organization.findOne({ login: organization }).exec();
+  const findOne = organization => Organization.findOne({ name: organization }).exec();
   const find = () => Organization.find().exec();
 
   return {

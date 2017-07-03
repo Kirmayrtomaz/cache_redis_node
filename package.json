@@ -17,7 +17,9 @@
     "express": "^4.15.3",
     "mocha": "^3.4.2",
     "mongoose": "^4.10.8",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
