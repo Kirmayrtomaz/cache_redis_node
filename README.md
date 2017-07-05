@@ -1,4 +1,4 @@
-# Utilizando Cache com Redis e Rode.js
+# Utilizando Cache com Redis e Node.js
 
 
 [![Travis](https://travis-ci.org/Kirmayrtomaz/cache_redis_node.svg?branch=master)](https://travis-ci.org/Kirmayrtomaz/cache_redis_node)
@@ -8,7 +8,6 @@
 
 
 # instalando dependencias
-
 
 Esse projeto, mostra um exemplo em que consultaremos as organizações do github e salvaremos no banco de dados, e retornar a consulta caso já esteha cacheado.
 
@@ -20,7 +19,7 @@ Possuiremos duas rotas
 
 ## Biblioteca do redis para instalar
 
-```
+```   javascript
 npm i --save redis
 ```
 or
@@ -31,14 +30,14 @@ yarn add redis
 
 ## Inicializando no projeto
 
-```
+```  javascript
 const redis = require('redis');
 const cache = redis.createClient();
 
 ```
 ## Verificando se a conexão ocorreu com sucesso
 
-```
+```   javascript
 cache.on('connect', () => {
   console.log('REDIS READY');
 });
@@ -52,7 +51,7 @@ cache.on('error', (e) => {
 
 ## função para setar o cache
 
-```
+```  javascript
 const timeInSecond = 'EX';
 const time = 10;
 cache.set(keyName, value, timeInSecond, time)
@@ -69,7 +68,7 @@ cache.set(keyName, value, timeInSecond, time)
 
 ## função para setar dados de cache
 
-```
+```  javascript
 cache.get(keyName);
 ```
 
@@ -77,7 +76,7 @@ cache.get(keyName);
 
 ## Criando um middleware para o express
 
-```
+```   javascript
 const http = require('http');
 const express = require('express');
 const Promise = require('bluebird');
@@ -110,12 +109,12 @@ app.get('/', (req, res) => {
 ## Criando um canal de PUB/SUB
 
 
-```
+```   javascript
 const sub = redis.createClient(REDIS_PORT, REDIS_HOST);
 const sub = redis.createClient(REDIS_PORT, REDIS_HOST);
 
 sub.on('message', () => {
-  cache.del('/orgs');
+
 });
 
 sub.subscribe('clean_cache');
