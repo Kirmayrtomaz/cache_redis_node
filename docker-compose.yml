@@ -1,17 +1,26 @@
 version: '3'
 
 services:
-  node:
-    container_name: node_api
-    image: node:boron
-    ports:
-      - "3000"
+
   redis:
-    container_name: node_redis
+    container_name: redis
     image: redis:latest
-    ports:
-      - "6379:6379"
   mongo:
+    container_name: mongo
     image: mongo
+  node:
+    build: .
+    container_name: api
+    command: npm start
     ports:
-      - "27017:27017"
+      - "3000:3000"
+    volumes:
+      - .:/app
+    restart: always
+    links:
+      - redis
+      - mongo
+
+volumes:
+  node:
+

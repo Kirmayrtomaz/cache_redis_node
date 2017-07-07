@@ -4,6 +4,7 @@
   "description": "Tutorial de como criar cache com o redis",
   "main": "index.js",
   "scripts": {
+    "start": "./node_modules/.bin/pm2 start index.js --no-daemon --watch",
     "test": "./node_modules/mocha/bin/_mocha --recursive **/*.spec.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha **/*.spec.js -- -u exports -R spec -b --recursive",
     "lint": "eslint '**/*.js'",
@@ -17,6 +18,7 @@
     "express": "^4.15.3",
     "mocha": "^3.4.2",
     "mongoose": "^4.10.8",
+    "pm2": "^2.5.0",
     "redis": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
