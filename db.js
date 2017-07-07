@@ -7,7 +7,7 @@ const Organization = mongoose.model('Org', schema);
 
 function dbConnect() {
   return new Promise((resolve, reject) => {
-    mongoose.connect('mongodb://localhost:27017/org');
+    mongoose.connect('mongodb://mongo:27017/org');
 
     mongoose.connection.on('error', (e) => {
       reject(e);
