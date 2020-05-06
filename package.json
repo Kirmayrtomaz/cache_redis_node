@@ -10,7 +10,7 @@
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js'",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "yarn run snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +24,7 @@
     "redis": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "snyk": "^1.41.1"
+    "snyk": "^1.319.0"
   },
   "devDependencies": {
     "eslint": "^4.1.1",
