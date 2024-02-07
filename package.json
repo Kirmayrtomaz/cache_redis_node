@@ -22,8 +22,8 @@
     "mongoose": "^4.10.8",
     "pm2": "^2.5.0",
     "redis": "^2.7.1",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "snyk": "^1.41.1"
   },
   "devDependencies": {
